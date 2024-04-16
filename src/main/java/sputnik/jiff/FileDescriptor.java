@@ -1,9 +1,8 @@
-package io.github.i1123581321.jiff;
+package sputnik.jiff;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Objects;
 
 record FileDescriptor(Path root, Path path, long size, boolean isDirectory)
     implements Comparable<FileDescriptor> {

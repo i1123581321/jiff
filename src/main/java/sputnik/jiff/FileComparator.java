@@ -1,8 +1,7 @@
-package io.github.i1123581321.jiff;
+package sputnik.jiff;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.zip.Adler32;
 import java.util.zip.Checksum;
@@ -18,13 +17,6 @@ class FileComparator {
     this.CHUNK_SIZE = chunk_size * 1024;
   }
 
-  boolean modified(FileDescriptor srcFile, FileDescriptor dstFile) {
-    if (srcFile.isDirectory() != dstFile.isDirectory()) {
-      return false;
-    }
-    return (srcFile.path().equals(dstFile.path()) && srcFile.size() != dstFile.size());
-  }
-
   boolean moved(FileDescriptor srcFile, FileDescriptor dstFile) {
     if (srcFile.isDirectory() || dstFile.isDirectory()) {
       return false;
@@ -33,6 +25,12 @@ class FileComparator {
   }
 
   boolean strictEq(FileDescriptor srcFile, FileDescriptor dstFile) {
+    if (srcFile.isDirectory() && dstFile.isDirectory()) {
+      return true;
+    } else if (srcFile.isDirectory() || dstFile.isDirectory()) {
+      return false;
+    }
+
     try (var srcFis = new FileInputStream(src.resolve(srcFile.path()).toFile());
         var dstFis = new FileInputStream(dst.resolve(dstFile.path()).toFile())) {
       byte[] srcBuffer = new byte[CHUNK_SIZE];
