@@ -2,6 +2,7 @@ package io.github.i1123581321.jiff;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.zip.Adler32;
 import java.util.zip.Checksum;
